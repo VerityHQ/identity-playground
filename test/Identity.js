@@ -181,9 +181,9 @@ describe('Identity', async function() {
       assert(approval.events.Executed)
     })
 
-    it('should allow ACTION_KEYs to approve executions')
-    it('should not allow CLAIM_SIGNER_KEYs to approve executions')
-    it('should not be able to approve an already executed execution')
-    it('should not be able to approve a non-existant execution')
+    it('TODO: should allow ACTION_KEYs to approve executions')
+    it('TODO: should not allow CLAIM_SIGNER_KEYs to approve executions')
+    it('TODO: should not be able to approve an already executed execution')
+    it('TODO: should not be able to approve a non-existant execution')
   })
 })

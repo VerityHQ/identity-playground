@@ -17,7 +17,9 @@ var solcOpts = {
 }
 
 // Instantiate a web3 instance. Start a node if one is not already running.
-export async function web3Helper(provider = 'ws://localhost:7545') {
+// Runing Ganache from Ganache UI will require 'http://localhost:7545' to connect to the running server
+// otherwise use ws://
+export async function web3Helper(provider = 'http://localhost:7545') {
   var web3 = new Web3(provider)
   var instance = await server(web3, provider)
   return { web3, server: instance }
@@ -162,7 +164,8 @@ export default async function testHelper(contracts, provider) {
   return { web3, accounts, deploy, server }
 }
 
-// Start the server if it hasn't been already...
+// Start the Ganache server if it hasn't been already...
+// see comment in web3Helper function if trying to connect to running Ganache server
 async function server(web3, provider) {
   try {
     // Hack to prevent "connection not open on send" error when using websockets
@@ -178,6 +181,11 @@ async function server(web3, provider) {
   if (String(provider).match(/:([0-9]+)$/)) {
     port = provider.match(/:([0-9]+)$/)[1]
   }
+  // options, including setting mnemonic for address generation and HD path
+  // Set gas price and limit to current mainnet limit as posted on ethstats.net
+  //       gas: 7984452, // Block Gas Limit same as latest on Mainnet https://ethstats.net/
+  //       gasPrice: 2000000000, // same as latest on Mainnet https://ethstats.net/
+  // https://github.com/trufflesuite/ganache-core
   var server = Ganache.server()
   await server.listen(port)
   return server
